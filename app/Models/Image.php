@@ -11,6 +11,8 @@ class Image extends Model
     use HasFactory;
     protected $table = 'images';
     public $guarded =  ['id'];
+    protected $hidden = ['id','imageable_id','imageable_type'];
+    
 
     public function imageable(): MorphTo
     {

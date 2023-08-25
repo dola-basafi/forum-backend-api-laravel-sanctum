@@ -27,13 +27,13 @@ class AuthController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                'messages' => 'username tidak terdaftar'
+                'messages' => ['username tidak terdaftar']
             ], 400);
         }
         if (!$user || !Auth::attempt($request->only('username', 'password'))) {
             return response()->json([
                 'status' => false,
-                'messages' => 'username atau password anda masukkan salah'
+                'messages' => ['username atau password anda masukkan salah']
             ], 400);
         }
         $token = $user->createToken('auth_token')->plainTextToken;  
@@ -75,7 +75,7 @@ class AuthController extends Controller
         $user->assignRole('user');
         return response()->json([
             'status' => true,
-            'messages' => 'berhasil membuat account'
+            'messages' => ['berhasil membuat account']
         ]);
     }
     function logout(Request $request)
@@ -84,7 +84,7 @@ class AuthController extends Controller
         $user->tokens()->delete();
         return response()->json([
             'status' => true,
-            'messages' => 'berhasil logout',
+            'messages' => ['berhasil logout'],
         ]);
     }
 }
