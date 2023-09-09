@@ -9,9 +9,18 @@ use Illuminate\Support\Facades\Validator;
 
 class QuestionController extends Controller
 {
+  function own(Request $request){
+    $id = $request->user()->id;    
+    $question = Question::with(['image','category:id,name','user:id,name' ])->where('user_id', '=',$id)->get();
+    
+    return response()->json([
+      'status' => true,
+      'messages' => $question
+    ],200);
+  }
   function index()
   {
-    $question = Question::with('image')->get();
+    $question = Question::with('image','category:id,name','user:id,name')->get();
     return response()->json([
       'status' => true,
       'messages' => $question
@@ -131,7 +140,7 @@ class QuestionController extends Controller
   }
   function detail($id)
   {
-    $question = Question::with('image')->find($id);
+    $question = Question::with('image','category:id,name')->find($id);
     if (!$question) {
         return response()->json([
           'status' => false,

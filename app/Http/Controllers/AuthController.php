@@ -11,6 +11,10 @@ class AuthController extends Controller
 {
     function login(Request $request)
     {
+        // return response()->json([
+        //     'status' => false,
+        //     'messages' => [$request->all()]
+        // ]);
         $validator = Validator::make($request->all(), [
             'username' => ['required'],
             'password' => ['required'],
@@ -36,11 +40,13 @@ class AuthController extends Controller
                 'messages' => ['username atau password anda masukkan salah']
             ], 400);
         }
-        $token = $user->createToken('auth_token')->plainTextToken;  
+        $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json([
             'status' => true,
             'messages' => [
                 'token' => $token,
+                'id' => $user->id,
+                'name' => $user->name
             ]
         ], 200);
     }
@@ -79,7 +85,7 @@ class AuthController extends Controller
         ]);
     }
     function logout(Request $request)
-    {        
+    {
         $user = $request->user();
         $user->tokens()->delete();
         return response()->json([

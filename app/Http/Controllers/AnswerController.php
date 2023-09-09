@@ -10,16 +10,16 @@ use Illuminate\Support\Facades\Validator;
 
 class AnswerController extends Controller
 {
-  function index()
+  function index($id)
   {
-    $answer = Answer::with('image')->get();
+    $answer = Answer::with('image','user:id,name')->where('question_id','=',$id)->get();
     return response()->json([
       'status' => true,
-      'messges' => $answer
+      'messages' => $answer
     ], 200);
   }
   function store(Request $request)
-  {
+  {    
     if (!(Question::find($request['question_id']))) {
       return response()->json([
         'status' => false,
