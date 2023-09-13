@@ -40,8 +40,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
   });
   Route::prefix('answer')->group(function () {
-    Route::controller(AnswerController::class)->group(function () {
-      // Route::get('/index',  'index');
+    Route::controller(AnswerController::class)->group(function () {      
       Route::get('/detail/{id}',  'detail');
       Route::post('/create', 'store');
       Route::post('/update/{id}', 'update');

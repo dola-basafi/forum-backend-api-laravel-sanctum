@@ -12,14 +12,14 @@ class AnswerController extends Controller
 {
   function index($id)
   {
-    $answer = Answer::with('image','user:id,name')->where('question_id','=',$id)->get();
+    $answer = Answer::with('image', 'user:id,name')->where('question_id', '=', $id)->get();
     return response()->json([
       'status' => true,
       'messages' => $answer
     ], 200);
   }
   function store(Request $request)
-  {    
+  {
     if (!(Question::find($request['question_id']))) {
       return response()->json([
         'status' => false,
@@ -56,20 +56,20 @@ class AnswerController extends Controller
       'messages' => 'berhasil mengirim jawaban'
     ], 201);
   }
-  function update(Request $request,$id)
+  function update(Request $request, $id)
   {
     $answer = Answer::find($id);
     if (!$answer) {
       return response()->json([
         'status' => false,
         'messages' => 'data jawaban tidak di temukan'
-      ],400);
+      ], 400);
     }
     if ($answer->user_id !== $request->user()->id) {
       return response()->json([
         'status' => false,
         'messages' => 'anda bukan pemilik dari pertanyaan ini'
-      ],403);
+      ], 403);
     }
     $validator = Validator::make($request->all(), [
       'body' => ['required'],
@@ -83,11 +83,11 @@ class AnswerController extends Controller
         'messages' => $validator->errors()
       ], 400);
     }
-    $path="";
+    $path = "";
     if ($request->hasFile('image')) {
-      if (isset($answer->image->url)) { 
-        $path = str_replace($request->getSchemeAndHttpHost()."/storage/","public/",$answer->image->url);
-        Storage::delete([$path]);        
+      if (isset($answer->image->url)) {
+        $path = str_replace($request->getSchemeAndHttpHost() . "/storage/", "public/", $answer->image->url);
+        Storage::delete([$path]);
       }
       $path = Storage::putFile('public/files', $request->file('image'));
       $path = str_replace("public/", $request->getSchemeAndHttpHost() . "/storage/", $path);
@@ -104,7 +104,8 @@ class AnswerController extends Controller
       'messages' => 'berhasil mengubah jawaban'
     ]);
   }
-  function detail($id){
+  function detail($id)
+  {
     $answer = Answer::with('image')->find($id);
     if (!$answer) {
       return response()->json([
@@ -115,24 +116,25 @@ class AnswerController extends Controller
     return response()->json([
       'status' => true,
       'messages' => $answer
-    ],200);
+    ], 200);
   }
-  function destroy(Request $request,$id){
+  function destroy(Request $request, $id)
+  {
     $answer = Answer::find($id);
     if (!$answer) {
       return response()->json([
         'status' => false,
-        'messages' =>' data jawaban yang anda cari tidak di temukan'
-      ],400);
+        'messages' => ' data jawaban yang anda cari tidak di temukan'
+      ], 400);
     }
     if ($answer->user_id !== $request->user()->id) {
       return response()->json([
         'status' => false,
         'messages' => 'anda bukan pemilik dari jawaban ini'
-      ],403);
+      ], 403);
     }
     if (isset($answer->image->url)) {
-      $path = str_replace($request->getSchemeAndHttpHost()."/storage/","public/",$answer->image->url);
+      $path = str_replace($request->getSchemeAndHttpHost() . "/storage/", "public/", $answer->image->url);
       Storage::delete([$path]);
       $answer->delete();
     }
