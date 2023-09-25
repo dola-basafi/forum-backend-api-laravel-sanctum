@@ -11,10 +11,7 @@ class AuthController extends Controller
 {
     function login(Request $request)
     {
-        // return response()->json([
-        //     'status' => false,
-        //     'messages' => [$request->all()]
-        // ]);
+        
         $validator = Validator::make($request->all(), [
             'username' => ['required'],
             'password' => ['required'],
@@ -31,7 +28,7 @@ class AuthController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                'messages' => ['username tidak terdaftar']
+                'messages' => 'username tidak terdaftar'
             ], 400);
         }
         if (!$user || !Auth::attempt($request->only('username', 'password'))) {
