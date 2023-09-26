@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class ProfilController extends Controller
 {
   function show(Request $request){
-    $profil = User::find($request->user()->id);
+    $profil = User::with('image')->find($request->user()->id);
     if (!$profil) {
       return response()->json([
         'status' => false,

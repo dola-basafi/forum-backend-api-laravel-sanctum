@@ -75,6 +75,9 @@ class AuthController extends Controller
             'email' => $request['email'],
             'password' => $request['password'],
         ]);
+        $user->image()->create([
+          'url' => ''
+        ]);
         $user->assignRole('user');
         return response()->json([
             'status' => true,
