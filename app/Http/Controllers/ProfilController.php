@@ -62,7 +62,7 @@ class ProfilController extends Controller
       $request->only('name','city')
     );
     return response()->json([
-      'staus' => true,
+      'status' => true,
       'messages' => 'berhasil mengupdate profil'
     ]);
   }
