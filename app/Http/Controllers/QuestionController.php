@@ -140,7 +140,7 @@ class QuestionController extends Controller
   }
   function detail($id)
   {
-    $question = Question::with('image','category:id,name')->find($id);
+    $question = Question::with('image','user','category:id,name')->find($id);
     if (!$question) {
         return response()->json([
           'status' => false,
