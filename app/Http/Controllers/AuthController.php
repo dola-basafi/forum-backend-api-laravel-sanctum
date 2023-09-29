@@ -24,7 +24,7 @@ class AuthController extends Controller
                 'messages' => $validator->errors()
             ], 400);
         }
-        $user = User::where('username', $request['username'])->first();
+        $user = User::with('image')->where('username', $request['username'])->first();
         if (!$user) {
             return response()->json([
                 'status' => false,
@@ -43,7 +43,8 @@ class AuthController extends Controller
             'messages' => [
                 'token' => $token,
                 'id' => $user->id,
-                'name' => $user->name
+                'name' => $user->name,
+                'image' => $user->image->url
             ]
         ], 200);
     }

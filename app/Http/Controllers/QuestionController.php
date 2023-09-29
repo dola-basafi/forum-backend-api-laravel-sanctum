@@ -11,7 +11,7 @@ class QuestionController extends Controller
 {
   function own(Request $request){
     $id = $request->user()->id;    
-    $question = Question::with(['image','category:id,name','user:id,name' ])->where('user_id', '=',$id)->get();
+    $question = Question::with(['image','category:id,name','user:id,username' ])->where('user_id', '=',$id)->get();
     
     return response()->json([
       'status' => true,
@@ -20,7 +20,7 @@ class QuestionController extends Controller
   }
   function index()
   {
-    $question = Question::with('image','category:id,name','user:id,name')->get();
+    $question = Question::with('image','category:id,name','user:id,username')->get();
     return response()->json([
       'status' => true,
       'messages' => $question
